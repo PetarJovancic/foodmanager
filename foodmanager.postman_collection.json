@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "c8cfdf76-3658-4da8-b0b5-8a71e388a789",
+		"name": "FOOD APP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14914296"
+	},
+	"item": [
+		{
+			"name": "CREATE USER",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"cope123123\",\r\n  \"password\": \"string\",\r\n  \"first_name\": \"Petar\",\r\n  \"last_name\": \"Jov\",\r\n  \"email\": \"petarjovancic93nis@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/accounts/register/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"accounts",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"cope123123\",\n  \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/accounts/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"accounts",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE RECIPE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MDgxNTY1LCJpYXQiOjE3MDQ5OTUxNjUsImp0aSI6IjFkNjE2ZWJkMmYwMjRiMjM4ZTFlMzFlZTI5ZjEwMjY3IiwidXNlcl9pZCI6Mn0.UwpPBFGaCxLJ2UjHNQzgixl1cr4XJHPQyJ9JNeOkGm0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiJmMDU3YzZkZC04YzQ0LTQzYTUtYjg5Zi04ZTRiYmRlMTlmYWUiLCJleHAiOjE2MzI0MDM1MDN9.CAlX1i2X8XSVnQQMO9JxEbdl8sDTpaHTTjgD6wJyATQdf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"pizza 2\",\r\n  \"recipe_text\": \"ukusno jelo\",\r\n  \"ingredient_names\": [\r\n    \"luk\", \"pasta\", \"bosiljak\", \"Pesto\", \"kecap\"\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/recipes/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recipes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL RECIPES",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MTU0MjUxLCJpYXQiOjE3MDUwNjc4NTEsImp0aSI6IjgxOTcwZWE2ZWMxYTQxZjdiYTMxNmM1ODI2ZTIyYzhhIiwidXNlcl9pZCI6M30.e0tr85y6O9nL5PK9thc6qnQvkc_MG3EzoOACksqKUnI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiI1MGU1MWQwOS1iN2FkLTQwOWQtYjZhNS1mOGFkMDdiNzVjMGEiLCJleHAiOjE2MzIxNDk5MTh9.UQDz4Jf_UlaClXsEyDevL5NqJBsom5QgOCQLGOfd180",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/recipes/?page=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recipes",
+						""
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET USER RECIPES",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MDgxNTY1LCJpYXQiOjE3MDQ5OTUxNjUsImp0aSI6IjFkNjE2ZWJkMmYwMjRiMjM4ZTFlMzFlZTI5ZjEwMjY3IiwidXNlcl9pZCI6Mn0.UwpPBFGaCxLJ2UjHNQzgixl1cr4XJHPQyJ9JNeOkGm0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiJmMDU3YzZkZC04YzQ0LTQzYTUtYjg5Zi04ZTRiYmRlMTlmYWUiLCJleHAiOjE2MzI0MDM1MDN9.CAlX1i2X8XSVnQQMO9JxEbdl8sDTpaHTTjgD6wJyATQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/recipes/:id?page=1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recipes",
+						":id"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RATE RECIPE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MDAzNjcwLCJpYXQiOjE3MDQ5MTcyNzAsImp0aSI6ImFhZjZlYjkwMmY0MzQyMjM5MWM5MWJiY2IwZmNmNjliIiwidXNlcl9pZCI6Mn0.lhlmdnsnYvbEai4PIYKsou2XuVcLHicl4zgVM3ekNDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiIwMzNhZTdlNC1iNTVjLTQ4MjgtYWQ3OS05YmY1ZmEyYWQ0ODMiLCJleHAiOjE2MzI0MDM2Nzl9.vPs-VujSGJK4cTef4Nfjm1lBQ43p3-pc5AC0ZAWBjfg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\" : 2,\r\n    \"rating\" : 3,\r\n    \"recipe\": 3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/recipes/rate",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recipes",
+						"rate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TOP 5 INGREDIENTS",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MDAzNjcwLCJpYXQiOjE3MDQ5MTcyNzAsImp0aSI6ImFhZjZlYjkwMmY0MzQyMjM5MWM5MWJiY2IwZmNmNjliIiwidXNlcl9pZCI6Mn0.lhlmdnsnYvbEai4PIYKsou2XuVcLHicl4zgVM3ekNDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/recipes/top-ingredients",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recipes",
+						"top-ingredients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SEARCH RECIPE",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MDAzNjcwLCJpYXQiOjE3MDQ5MTcyNzAsImp0aSI6ImFhZjZlYjkwMmY0MzQyMjM5MWM5MWJiY2IwZmNmNjliIiwidXNlcl9pZCI6Mn0.lhlmdnsnYvbEai4PIYKsou2XuVcLHicl4zgVM3ekNDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiIwMzNhZTdlNC1iNTVjLTQ4MjgtYWQ3OS05YmY1ZmEyYWQ0ODMiLCJleHAiOjE2MzI0MDM2Nzl9.vPs-VujSGJK4cTef4Nfjm1lBQ43p3-pc5AC0ZAWBjfg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\" : \"sarma\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/recipes/search/?query=pasta",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recipes",
+						"search",
+						""
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "pasta"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FILTER RECIPES",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA1MDAzNjcwLCJpYXQiOjE3MDQ5MTcyNzAsImp0aSI6ImFhZjZlYjkwMmY0MzQyMjM5MWM5MWJiY2IwZmNmNjliIiwidXNlcl9pZCI6Mn0.lhlmdnsnYvbEai4PIYKsou2XuVcLHicl4zgVM3ekNDw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdWJsaWNfaWQiOiIwMzNhZTdlNC1iNTVjLTQ4MjgtYWQ3OS05YmY1ZmEyYWQ0ODMiLCJleHAiOjE2MzI0MDM2Nzl9.vPs-VujSGJK4cTef4Nfjm1lBQ43p3-pc5AC0ZAWBjfg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/recipes/filter-by-ingredients/?min=1&max=10",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"recipes",
+						"filter-by-ingredients",
+						""
+					],
+					"query": [
+						{
+							"key": "min",
+							"value": "1"
+						},
+						{
+							"key": "max",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

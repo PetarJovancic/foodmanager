@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:13
+    env_file: ./.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+
+  web:
+    build: .
+    env_file: ./.env
+    command: python manage.py runserver $LISTEN_ADDRESS:$DB_DOCKER_PORT
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - $LOCAL_PORT:$DB_DOCKER_PORT
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$DB_HOST:$DB_DOCKER_PORT/$POSTGRES_DB
+
+volumes:
+  postgres_data:

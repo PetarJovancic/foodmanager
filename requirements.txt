@@ -1,0 +1,10 @@
+Django
+djangorestframework
+djangorestframework-simplejwt
+psycopg2-binary
+pyhunter
+requests
+setuptools
+uwsgi
+python-dotenv
+flake8
