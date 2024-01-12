@@ -6,7 +6,7 @@ Backend server for generating recipes with ingredients.
      alt="Markdown Python icon"
      height="30px"
 />&nbsp;&nbsp;&nbsp;
-<img src="https://icons8.com/icon/LPmcJ9e0FU7K/django-a-high-level-python-web-framework-that-encourages-rapid-development"
+<img src="https://www.svgrepo.com/show/353657/django-icon.svg"
      alt="Markdown Django icon"
      height="30px"
 />&nbsp;&nbsp;
