@@ -41,6 +41,7 @@ DB_HOST=db
 LOCAL_PORT=<port>
 DOCKER_PORT=<port>
 ENV=development
+DJANGO_SECRET_KEY=<secret>
 
 DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
 LISTEN_ADDRESS=0.0.0.0
