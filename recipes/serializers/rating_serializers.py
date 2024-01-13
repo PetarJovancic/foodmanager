@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rating
-        fields = ['id', 'recipe', 'user', 'rating']
+        fields = ['id', 'recipe', 'rating']
 
     def validate_rating(self, value):
         if not (1 <= value <= 5):
@@ -19,8 +19,11 @@ class RatingSerializer(serializers.ModelSerializer):
         return value
 
     def validate(self, data):
-        if data['recipe'].creator == data['user']:
-            msg = "You cannot rate your own recipe."
-            logger.warning(f"Warning in RatingSerializer: {msg}")
-            raise serializers.ValidationError(msg)
+        request = self.context.get('request')
+        if request and hasattr(request, 'user'):
+            user = request.user
+            if data['recipe'].creator == user:
+                msg = "You cannot rate your own recipe."
+                logger.warning(f"Warning in RatingSerializer: {msg}")
+                raise serializers.ValidationError(msg)
         return data
