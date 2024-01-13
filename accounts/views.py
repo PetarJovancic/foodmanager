@@ -5,7 +5,6 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer, LoginSerializer
-from .models import User
 import requests
 import logging
 
@@ -17,62 +16,44 @@ class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
     def post(self, request, *args, **kwargs):
-        email = request.data.get('email', '').lower().strip()
-        username = request.data.get('username', '')
-        password = request.data.get('password', '')
+        serializer = self.get_serializer(data=request.data)
 
-        if email == '':
-            return Response({'error': 'Email field cannot be empty'},
+        if not serializer.is_valid():
+            return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
-        if username == '':
-            return Response({'error': 'Username field cannot be empty'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        if password == '':
-            return Response({'error': 'Password field cannot be empty'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        if User.objects.filter(email=email).exists():
-            return Response({'error': 'A user with this email already exists'},
-                            status=status.HTTP_400_BAD_REQUEST)
-        if User.objects.filter(username=username).exists():
-            return Response(
-                        {'error': 'A user with this username already exists'},
-                        status=status.HTTP_400_BAD_REQUEST)
+
+        email = serializer.validated_data.get('email')
 
         try:
+            # Email verification with PyHunter
             hunter = PyHunter(settings.HUNTER_API_KEY)
             hunter_response = hunter.email_verifier(email)
             logger.debug(f"hunter_response: {hunter_response['status']}")
-
-            if hunter_response['status'] == 'valid':
-                clearbit_data = self.lookup_email(email)
-                if clearbit_data and 'person' in clearbit_data:
-                    person_data = clearbit_data.get('person', {})
-                    request.data.update({
-                        'first_name': person_data.get(
-                                            'name', {}).get('givenName', ''),
-                        'last_name': person_data.get(
-                                            'name', {}).get('familyName', ''),
-                        'bio': person_data.get('bio', ''),
-                        'location': person_data.get('location', ''),
-                        'phone': person_data.get('phone', '')
-                    })
-
-                logger.info(f"User is being registered: {request.data}")
-                return super().post(request, *args, **kwargs)
-            else:
-                return Response({'error': 'Invalid email address'},
-                                status=status.HTTP_400_BAD_REQUEST)
-
         except requests.exceptions.RequestException as e:
             logger.error(f"Network error occurred during API calls: {e}")
             return Response({'error': 'Network error occurred'},
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
-        except Exception as e:
-            logger.error(f"User registration error: {e}")
-            return Response(
-                {'error': 'An error occurred during user registration'},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        if hunter_response['status'] != 'valid':
+            return Response({'error': 'Invalid email address'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        # Clearbit enrichment
+        clearbit_data = self.lookup_email(email)
+        if clearbit_data and 'person' in clearbit_data:
+            person_data = clearbit_data.get('person', {})
+            serializer.save(
+                first_name=person_data.get('name', {}).get('givenName', ''),
+                last_name=person_data.get('name', {}).get('familyName', ''),
+                bio=person_data.get('bio', ''),
+                location=person_data.get('location', ''),
+                phone=person_data.get('phone', '')
+            )
+        else:
+            serializer.save()
+
+        logger.info("User is being registered")
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @staticmethod
     def lookup_email(email):
