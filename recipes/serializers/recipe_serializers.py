@@ -18,8 +18,8 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ['id', 'name', 'recipe_text', 'ingredients', 
-                'ingredient_names', 'creator','average_rating']    
+        fields = ['id', 'name', 'recipe_text', 'ingredients',
+                  'ingredient_names', 'creator', 'average_rating']
         read_only_fields = ['creator']
 
     def create(self, validated_data):
@@ -41,10 +41,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         except IntegrityError as e:
             logger.error(f"Error in RecipeSerializer: {e}")
             raise serializers.ValidationError(
-                        {"An error occurred during recipe creation: " + str(e)})
+                    {"An error occurred during recipe creation: " + str(e)})
         except Exception as e:
             logger.error(f"Error in RecipeSerializer: {e}")
             raise serializers.ValidationError(
-                        {"An error occurred during recipe creation: " + str(e)})
-
-        
+                    {"An error occurred during recipe creation: " + str(e)})

@@ -18,10 +18,25 @@ class CreateUserView(generics.CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         email = request.data.get('email', '').lower().strip()
+        username = request.data.get('username', '')
+        password = request.data.get('password', '')
 
+        if email == '':
+            return Response({'error': 'Email field cannot be empty'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if username == '':
+            return Response({'error': 'Username field cannot be empty'},
+                            status=status.HTTP_400_BAD_REQUEST)
+        if password == '':
+            return Response({'error': 'Password field cannot be empty'},
+                            status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(email=email).exists():
             return Response({'error': 'A user with this email already exists'},
                             status=status.HTTP_400_BAD_REQUEST)
+        if User.objects.filter(username=username).exists():
+            return Response(
+                        {'error': 'A user with this username already exists'},
+                        status=status.HTTP_400_BAD_REQUEST)
 
         try:
             hunter = PyHunter(settings.HUNTER_API_KEY)
@@ -45,18 +60,18 @@ class CreateUserView(generics.CreateAPIView):
                 logger.info(f"User is being registered: {request.data}")
                 return super().post(request, *args, **kwargs)
             else:
-                return Response({'error': 'Invalid email address'}, 
+                return Response({'error': 'Invalid email address'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Network error occurred during API calls: {e}")
-            return Response({'error': 'Network error occurred'}, 
+            return Response({'error': 'Network error occurred'},
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
         except Exception as e:
-            logger.error(f"Email verification error: {e}")
+            logger.error(f"User registration error: {e}")
             return Response(
-                {'error': 'An error occurred during email verification'},
+                {'error': 'An error occurred during user registration'},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @staticmethod

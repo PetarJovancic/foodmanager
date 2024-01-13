@@ -11,5 +11,6 @@ router.register(r'', RecipeViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('rate', CreateRatingView.as_view(), name='rate-recipe'),
-    path('top-ingredients', TopIngredientsView.as_view(), name='top-ingredients'),
+    path(
+      'top-ingredients', TopIngredientsView.as_view(), name='top-ingredients'),
 ]

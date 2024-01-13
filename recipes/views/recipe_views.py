@@ -30,39 +30,40 @@ class RecipeViewSet(viewsets.ModelViewSet):
             serializer.save(creator=user)
         except DatabaseError as e:
             logger.error(f"Database error during recipe creation: {e}")
-            return Response({'error': 'An error occurred during recipe creation.'},
-                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({
+                        'error': 'An error occurred during recipe creation.'},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except Exception as e:
             logger.error(f"Unexpected error during recipe creation: {e}")
             return Response({'error': 'An unexpected error occurred.'},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    @action(detail=False, methods=['get'], url_path='(?P<creator_id>\d+)')
+    @action(detail=False, methods=['get'], url_path=r'(?P<creator_id>\d+)')
     def recipes_by_creator(self, request, creator_id=None):
         try:
             if creator_id is None:
-                return Response({'message': 'Creator id is not provided'}, 
+                return Response({'message': 'Creator id is not provided'},
                                 status=status.HTTP_400_BAD_REQUEST)
-                
+
             else:
                 creator_id = int(creator_id)
 
                 if not User.objects.filter(id=creator_id).exists():
-                        raise NotFound("Creator not found")
+                    raise NotFound("Creator not found")
 
                 try:
                     recipes = self.queryset.filter(creator__id=creator_id)
                 except DatabaseError as e:
                     logger.error(
-                        f"Database error while fetching recipes by creator: {e}")
+                      f"Database error while fetching recipes by creator: {e}")
                     raise ValidationError(
-                                "An error occurred while querying the database")
+                        "An error occurred while querying the database")
 
                 page = self.paginate_queryset(recipes)
                 serializer = self.get_serializer(page or recipes, many=True)
 
                 result = self.get_paginated_response(serializer.data) \
-                        if page else Response(serializer.data)
+                    if page else Response(serializer.data)
                 logger.info(f"Filtered recipes by creator: {result}")
 
                 return result
@@ -72,21 +73,21 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response({"error": e}, status=status.HTTP_400_BAD_REQUEST)
 
         except NotFound as e:
-            logger.error(f"NotFound exception raised in recipes_by_creator: {e}")
+            logger.error(
+                    f"NotFound exception raised in recipes_by_creator: {e}")
             return Response({"error": e}, status=status.HTTP_404_NOT_FOUND)
 
         except Exception as e:
             logger.error(f"Unexpected error in recipes_by_creator: {e}")
-            return Response({"error": "An unexpected error occurred"}, 
+            return Response({"error": "An unexpected error occurred"},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        
     @action(detail=False, methods=['get'], url_path='search')
     def search_recipes(self, request):
         try:
             query = request.query_params.get('query', '')
             if not query:
-                return Response({'message': 'No search query provided'}, 
+                return Response({'message': 'No search query provided'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
             try:
@@ -98,13 +99,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
             except DatabaseError as e:
                 logger.error(f"Database error during search: {e}")
                 raise ValidationError(
-                                "An error occurred while querying the database")
+                            "An error occurred while querying the database")
 
             page = self.paginate_queryset(recipes)
             serializer = self.get_serializer(page or recipes, many=True)
 
             result = self.get_paginated_response(serializer.data) \
-                    if page else Response(serializer.data)
+                if page else Response(serializer.data)
             logger.info(f"Searched recipes: {result}")
 
             return result
@@ -114,9 +115,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
         except Exception as e:
             logger.error(f"Unexpected error in search_recipes: {e}")
-            return Response({"error": "An unexpected error occurred"}, 
+            return Response({"error": "An unexpected error occurred"},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
     @action(detail=False, methods=['get'], url_path='filter-by-ingredients')
     def filter_recipes_by_ingredients(self, request):
@@ -137,7 +137,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             except DatabaseError as e:
                 logger.error(f"Database error while filtering recipes: {e}")
                 raise ValidationError(
-                                "An error occurred while querying the database")
+                            "An error occurred while querying the database")
 
             page = self.paginate_queryset(recipes)
             if page is not None:
@@ -146,7 +146,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 serializer = self.get_serializer(recipes, many=True)
 
             result = self.get_paginated_response(serializer.data) \
-                    if page else Response(serializer.data)
+                if page else Response(serializer.data)
             logger.info(f"Filtered recipes by ingredients: {result}")
 
             return result
@@ -157,5 +157,5 @@ class RecipeViewSet(viewsets.ModelViewSet):
         except Exception as e:
             logger.error(
                     f"Unexpected error in filter_recipes_by_ingredients: {e}")
-            return Response({"error": "An unexpected error occurred"}, 
+            return Response({"error": "An unexpected error occurred"},
                             status=status.HTTP_500_INTERNAL_SERVER_ERROR)

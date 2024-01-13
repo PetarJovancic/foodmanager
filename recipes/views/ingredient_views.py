@@ -17,7 +17,7 @@ class TopIngredientsView(APIView):
             ).order_by('-num_recipes')[:5]
 
             data = [
-                {"ingredient": ingredient.name, 
+                {"ingredient": ingredient.name,
                  "recipes_count": ingredient.num_recipes}
                 for ingredient in top_ingredients
             ]
