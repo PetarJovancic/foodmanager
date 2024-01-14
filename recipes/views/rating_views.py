@@ -16,7 +16,7 @@ class CreateRatingView(generics.CreateAPIView):
         user = self.request.user
 
         rating_instance = \
-                        Rating.objects.filter(recipe=recipe, user=user).first()
+            Rating.objects.filter(recipe=recipe, user=user).first()
 
         if rating_instance:
             rating_instance.rating = serializer.validated_data.get('rating')
