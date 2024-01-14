@@ -112,7 +112,19 @@ docker-compose run web python manage.py migrate
 
 ## Test
 
-Tests are not yet implemented:
+Only basic unit tests are implemented.
+Tests should be extended to cover examples like negative tests or other edge cases.
+To run all the unit tests execute:
+
+```
+python manage.py test
+```
+
+To run individual tests execute:
+
+```
+python manage.py test <path-to-test-views>
+```
 
 ## Manual Testing
 
